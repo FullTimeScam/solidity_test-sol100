@@ -41,7 +41,7 @@ contract Q13_A3B1C2 {
             return "B";
         } else if (_num %3 == 2) {
             return "C";
-        }
+        } else return "error";
     }
 
 
@@ -61,11 +61,11 @@ contract Q14_STUDENT_ID_NAME {
 
     Student[] students;
 
-    uint nextId = 1;
-
+    
     function addStudent(string memory _name, string[] memory _classes) public {
+        uint nextId = students.length + 1;
         students.push(Student(nextId, _name, _classes));
-        nextId++;
+        
     }
 
     function getStudent(uint _id) public view returns (Student memory) {
@@ -128,21 +128,13 @@ contract Q16_ArraySum {
 }
 
 
-contract Q17_ARRAY_EVEN {
-    // uint 형이 들어가는 array를 선언하고, 짝수만 들어갈 수 있게 걸러주는 함수를 구현하세요.
+contract Q17_IsHeBOb {
+    // string을 input으로 받는 함수를 구현하세요. 이 함수는 true 혹은 false를 반환하는데 Bob이라는 이름이 들어왔을 때에만 true를 반환합니다. 
 
-    uint[] A;
-
-    function addA(uint[] memory _arrayN) public {
-        for (uint i = 0; i < _arrayN.length; i++) {
-            if (_arrayN[i] % 2 == 0) {
-                A.push(_arrayN[i]);
-            }
-        }
-    }
-
-    function getA() public view returns(uint[] memory) {
-        return A;
+    function inputString(string memory _s) public pure returns(bool) {
+        if (keccak256(abi.encodePacked(_s)) == keccak256(abi.encodePacked("Bob")))
+        return true;
+        else return false;
     }
 
 }
@@ -177,12 +169,12 @@ contract Q19_TURNDOUBLE {
     
     uint a = 0;
 
-    function turnDoubleNoScam(uint _num) public {
+    function turnDouble(uint _num) public {
         require(_num <= 1000, "You Are So Greedy!");
         a = _num*2;
     }
 
-    function getPrize() public view returns(uint) {
+    function geDouble() public view returns(uint) {
         return a;
     }
 
