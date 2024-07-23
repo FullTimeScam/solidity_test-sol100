@@ -2,7 +2,7 @@
 
 pragma solidity >= 0.8.2 < 0.9.0;
 
-contract TEST5 {
+contract TEST6 {
 
 /*
 숫자를 넣었을 때 그 숫자의 자릿수와 각 자릿수의 숫자를 나열한 결과를 반환하세요.
