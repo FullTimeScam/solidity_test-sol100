@@ -2,283 +2,232 @@
 
 pragma solidity >= 0.8.2 < 0.9.0;
 
-contract Q31 {
-    // 1. string을 input으로 받는 함수를 구현하세요.
-    // "Alice"나 "Bob"일 때에만 true를 반환하세요.
+contract Q41 {
+    // 숫자만 들어갈 수 있으며 길이가 4인 배열을 (상태변수로)선언하고
+    // 그 배열에 숫자를 넣는 함수를 구현하세요.
+    // 배열을 초기화하는 함수도 구현하세요.
+    // (길이가 4가 되면 자동으로 초기화하는 기능은 굳이 구현하지 않아도 됩니다.)
 
-    function inputName(string memory _s) public pure returns(bool){
-        bytes32 hashAli = keccak256(abi.encodePacked("Alice"));
-        bytes32 hashBob = keccak256(abi.encodePacked("Bob"));
-        bytes32 hash_s = keccak256(abi.encodePacked(_s));
 
-        if (hash_s == hashAli || hash_s == hashBob) return true;
-        else return false;
+    // 숫자만 들어갈 수 있으며 길이가 4인 배열을 (상태변수로)선언하고
+    uint[4] public numbers;
+
+    // 그 배열에 숫자를 넣는 함수를 구현하세요.
+    function addNumbers(uint[4] memory _nums) public {
+        numbers = _nums;
     }
+
+    // 배열을 초기화하는 함수도 구현하세요.
+    function reset() public {
+        for (uint i = 0; i < numbers.length; i++) {
+            numbers[i] = 0;            
+        }
+    }
+
 }
 
 
-contract Q32 {
-    // 3의 배수만 들어갈 수 있는 array를 구현하되,
-    // 3의 배수이자 동시에 10의 배수이면 들어갈 수 없는 추가 조건도 구현하세요.
-    // 예) 3 → o , 9 → o , 15 → o , 30 → x
-
-    uint[] public three;
-
-    function arrayA(uint _n) public returns(uint[] memory){
-        if(_n % 3 == 0 && _n % 30 != 0)
-        three.push(_n);
-        
-        return three;
-    }
+contract Q42 {
+    // 이름과 번호 그리고 지갑주소를 가진 '고객'이라는 구조체를 선언하세요.
+    // 새로운 고객 정보를 만들 수 있는 함수도 구현하되 이름의 글자가 최소 5글자가 되게 설정하세요.
 
 
-
-}
-
-contract Q33 {
-    // 이름, 번호, 지갑주소 그리고 생일을 담은 고객 구조체를 구현하세요.
-    // 고객의 정보를 넣는 함수와 고객의 이름으로 검색하면 해당 고객의 전체 정보를 반환하는 함수를 구현하세요.
-
-    struct Customer{
+    // 이름과 번호 그리고 지갑주소를 가진 '고객'이라는 구조체를 선언하세요.
+    struct Gogaek {
         string name;
-        uint index;
+        uint number;
         address wallet;
-        uint birth;
-    }
-
-    mapping (string => Customer) public customers;
-
-    function setInfo(string memory _name, uint _index, address _wallet, uint _birth) public {
-
-        customers[_name] = Customer(_name, _index, _wallet, _birth);
-    }
-
-    function getInfo(string memory _name) public view returns(string memory, uint, address, uint){
-        Customer memory customer = customers[_name];
-
-        return (customer.name, customer.index, customer.wallet, customer.birth);
     }
 
 
-}
+    Gogaek[] public customers;
 
-contract Q34 {
-    // 이름, 번호, 점수가 들어간 학생 구조체를 선언하세요.
-    // 학생들을 관리하는 자료구조도 따로 선언하고
-    // 학생들의 전체 평균을 계산하는 함수도 구현하세요.
-
-    struct Student {
-        string name;
-        uint index;
-        uint score;
-    }
-
-    Student[] public students;
-
-    function addStudent(string memory _name, uint _index, uint _score) public {
-        students.push(Student(_name, _index, _score));
-    }
-
-    function avg() public view returns(uint){
-        uint totalScore = 0;
-        uint studentCount = students.length;
-
-        for (uint i = 0; i < studentCount; i++) {
-            totalScore += students[i].score;
-        }
-
-        if (studentCount > 0) {
-            return totalScore / studentCount;
-        } else {
-            return 0;
-    }
-    }
-
-}
-
-contract Q35 {
-// 숫자만 들어갈 수 있는 array를 선언하고
-// 해당 array의 짝수번째 요소만 모아서 반환하는 함수를 구현하세요.
-// 예) [1,2,3,4,5,6] -> [2,4,6] // [3,5,7,9,11,13] -> [5,9,13]
-
-    // 숫자만 들어갈 수 있는 array를 선언하고
-    uint[] public numbers;
-
-    function addNumber(uint _number) public {
-        numbers.push(_number);
-    }
-
-    // 짝수번째 요소만 모아서 반환하는 함수를 구현하세요.
-    function getEven() public view returns (uint[] memory) {
-        uint count = 0;
-
-        // 짝수번째가 몇 갠지 세어보기(count)
-        for (uint i = 1; i < numbers.length; i += 2) {
-            count++;
-        }
-
-        // count 길이의 배열을 만들고
-        uint[] memory even = new uint[](count);
-        uint j = 0;
-
-        for (uint i = 1; i < numbers.length; i += 2) {
-            even[j] = numbers[i]; // 함수 이식하기
-            j++;
-        }
-
-        return even;
-    }
-}
-
-contract Q36 {
-    // high, neutral, low 상태를 구현하세요.
-    // a라는 변수의 값이 7이상이면 high, 4이상이면 neutral
-    // 그 이후면 low로 상태를 변경시켜주는 함수를 구현하세요.
-
-    // 열거형 enum을 사용하면 값이 Status의 0, 1, 2에 매핑 된다.
-    enum Status { High, Neutral, Low }
-    
-    // 열거형의 변수 선언
-    Status public nowSatus;
-
-    function setStatus(uint a) public {
-        if (a >= 7) {
-            nowSatus = Status.High; // 매핑되어 있어서 이렇게 사용하면 된다.
-        } else if (a >= 4) {
-            nowSatus = Status.Neutral;
-        } else {
-            nowSatus = Status.Low;
-        }
-    }
-
-    function getStatus() public view returns (string memory) {
-        if (nowSatus == Status.High) {
-            return "High";
-        } else if (nowSatus == Status.Neutral) {
-            return "Neutral";
-        } else {
-            return "Low";
-        }
-    }
-}
-
-contract Q37 {
-    // 1 wei를 기부하는 기능, 1finney를 기부하는 기능 그리고 1 ether를 기부하는 기능을 구현하세요.
-    // 최초의 배포자만이 해당 smart contract에서 자금을 회수할 수 있고 다른 이들은 못하게 막는 함수도 구현하세요.
-    // (힌트 : 기부는 EOA가 해당 Smart Contract에게 돈을 보내는 행위, contract가 돈을 받는 상황)
-    
-    address public owner;
-
-    constructor() {
-        owner = msg.sender;
-    }
-
-    function donateWei() public payable {
-        require(msg.value == 1 wei, "you can donate only exactly 1 wei");
-    }
-
-    function donateFinney() public payable {
-        // require(msg.value == 1 finney, "you can donate only exactly 1 finney"); // finney 지원 안 됨
-        require(msg.value == 10**15 wei, "you can donate only exactly 1 finney");
-    }
-
-    function donateEther() public payable {
-        require(msg.value == 1 ether, "you can donate only exactly 1 ether");
-    }
-
-    function getBalance() public view returns (uint) {
-        return address(this).balance;
-    }
-
-    function withdraw() public {
-        require(msg.sender == owner, "pls bring Owner's wallet");
-        payable(owner).transfer(address(this).balance);
-    }
-}
-
-contract Q38 {
-    // 상태변수 a를 "A"로 설정하여 선언하세요.
-    // 이 함수를 "B" 그리고 "C"로 변경시킬 수 있는 함수를 각각 구현하세요.
-    // 단 해당 함수들은 오직 owner만이 실행할 수 있습니다.
-    // owner는 해당 컨트랙트의 최초 배포자입니다.
-    // (힌트 : 동일한 조건이 서로 다른 두 함수에 적용되니 더욱 효율성 있게 적용시킬 수 있는 방법을 생각해볼 수 있음)
-
-    string public a = "A";
-    address public owner;
-
-    constructor() {
-        owner = msg.sender;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner");
-        _;
-    }
-
-    function setToB() public onlyOwner { // onlyOwner은 모디파이어
-        a = "B";
-    }
-
-    function setToC() public onlyOwner {
-        a = "C";
-    }
-
-
-}
-
-contract Q39 {
-    // 특정 숫자의 자릿수까지의 2의 배수, 3의 배수, 5의 배수 7의 배수의 개수를 반환해주는 함수를 구현하세요.
-    // 예) 15 : 7,5,3,2  (2의 배수 7개, 3의 배수 5개, 5의 배수 3개, 7의 배수 2개) // 100 : 50,33,20,14  (2의 배수 50개, 3의 배수 33개, 5의 배수 20개, 7의 배수 14개)
-
-    function countMultiples(uint num) public pure returns (uint, uint, uint, uint) {
-        uint count2 = 0;
-        uint count3 = 0;
-        uint count5 = 0;
-        uint count7 = 0;
-
-        for (uint i = 1; i <= num; i++) {
-            if (i % 2 == 0) {
-                count2++;
-            }
-            if (i % 3 == 0) {
-                count3++;
-            }
-            if (i % 5 == 0) {
-                count5++;
-            }
-            if (i % 7 == 0) {
-                count7++;
-            }
-        }
-
-        return (count2, count3, count5, count7);
-    }
-
-
-}
-
-contract Q40 {
-    // 숫자를 임의로 넣었을 때 내림차순으로 정렬하고
-    // 가장 가운데 있는 숫자를 반환하는 함수를 구현하세요.
-    // 가장 가운데가 없다면 가운데 2개 숫자를 반환하세요.
-    // 예) [5,2,4,7,1] -> [1,2,4,5,7], 4 // [1,5,4,9,6,3,2,11] -> [1,2,3,4,5,6,9,11], 4,5 // [6,3,1,4,9,7,8] -> [1,3,4,6,7,8,9], 6
-
-    function sort(uint[] memory data) public pure returns (uint[] memory) {
+    // 새로운 고객 정보를 만들 수 있는 함수도 구현하되 이름의 글자가 최소 5글자가 되게 설정하세요.
+    function addCustomer(string memory _name, uint _number, address _wallet) public {
+        require(bytes(_name).length >= 5, "Name must be at least 5");
         
-        uint n = data.length;
-    //내림차순 정렬
-        for (uint i = 0; i < n - 1; i++) {
-            for (uint j = 0; j < n - i - 1; j++) {
-                if (data[j] > data[j + 1]) {
-                    uint temp = data[j];
-                    data[j] = data[j + 1];
-                    data[j + 1] = temp;
-                }
-            }
-        }
-        return data;
+        Gogaek memory newCustomer = Gogaek({
+            name: _name,
+            number: _number,
+            wallet: _wallet
+        });
+
+        customers.push(newCustomer);
     }
 
-    // 가운데 값 찾는 함수
+
+}
+
+contract Q43 {
+    // 은행의 역할을 하는 contract를 만드려고 합니다.
+    // 별도의 고객 등록 과정은 없습니다.
+    // 해당 contract에 ether를 예치할 수 있는 기능을 만드세요. (payable, msg.value)
+    // 또한, 자신이 현재 얼마를 예치했는지도 볼 수 있는 함수 (balance)
+    // 그리고 자신이 예치한만큼의 ether를 인출할 수 있는 기능을 구현하세요.
+
+
+    // 예치금
+    mapping(address => uint) private balance;
+
+    // ether를 예치할 수 있는 기능을 만드세요. (payable)
+    function deposit() public payable {
+        balance[msg.sender] += msg.value;
+    }
+
+    // 또한, 자신이 현재 얼마를 예치했는지 볼 수 있는 함수
+    function balances() public view returns (uint) {
+        return balance[msg.sender];
+    }
+
+    // 자신이 예치한 만큼의 ether를 인출할 수 있는 기능
+    function withdraw(uint _amount) public {
+        require(balance[msg.sender] >= _amount, "Insufficient balance");
+
+        // 금액 차감
+        balance[msg.sender] -= _amount;
+
+        // 그 만큼 출금
+        payable(msg.sender).transfer(_amount);
+    }
+
+
+
+
+}
+
+contract Q44 {
+    // string만 들어가는 array를 만들되,
+    // 4글자 이상인 문자열만 들어갈 수 있게 구현하세요.
+
+
+    // string만 들어가는 array를 만들되,
+    string[] public stringArray;
+
+    // 4글자 이상인 문자열만 들어갈 수 있게 구현하세요.
+    function addString(string memory _str) public {
+        require(bytes(_str).length >= 4, "under 4");
+        stringArray.push(_str);
+    }
+
+    function getStrings() public view returns (string[] memory) {
+        return stringArray;
+    }
+
+
+
+
+}
+
+contract Q45 {
+    // 숫자만 들어가는 array를 만들되,
+    // 100이하의 숫자만 들어갈 수 있게 구현하세요.
+
+
+    // 숫자만 들어가는 array를 만들되,
+    uint[] public numbersArray;
+
+    // 100이하의 숫자만 들어갈 수 있게 구현하세요.
+    function addNumber(uint _num) public {
+        require(_num <= 100, "under 100");
+        numbersArray.push(_num);
+    }
+
+    function getNumbers() public view returns (uint[] memory) {
+        return numbersArray;
+    }
+}
+
+contract Q46 {
+    // 3의 배수이거나 10의 배수이면서 50보다 작은 수만 들어갈 수 있는 array를 구현하세요. (나머지 또는 몫 이용하기)
+    // (예 : 15 -> 가능, 3의 배수 // 40 -> 가능, 10의 배수이면서 50보다 작음 // 66 -> 가능, 3의 배수 // 70 -> 불가능 10의 배수이지만 50보다 큼)
+
+
+    uint[] public specialNumbers;
+
+    function addNumber(uint _num) public {
+        require(
+            (_num % 3 == 0) || (_num % 10 == 0 && _num < 50),
+            "nope"
+        );
+        specialNumbers.push(_num);
+    }
+
+    function getNumbers() public view returns (uint[] memory) {
+        return specialNumbers;
+    }
+}
+
+contract Q47 {
+    //배포와 함께 배포자가 owner로 설정되게 하세요.
+    // owner를 바꿀 수 있는 함수도 구현하되
+    // 그 함수는 owner만 실행할 수 있게 해주세요.
+
+     address public owner;
+
+    //배포와 함께 배포자가 owner로 설정되게 하세요.
+        constructor() {
+        owner = msg.sender;
+    }
+
+    // owner를 바꿀 수 있는 함수도 구현하되
+    function changeOwner(address newOwner) public {
+        // 그 함수는 owner만 실행할 수 있게 해주세요.
+        require(msg.sender == owner, "Only owner");
+        owner = newOwner;
+    }
+
+}
+
+contract Q48_1 {
+    // A라는 contract에는 2개의 숫자를 더해주는 함수를 구현하세요.
+    // B라고 하는 contract를 따로 만든 후에 A의 더하기 함수를 사용하는 코드를 구현하세요.
+    function add(uint num1, uint num2) public pure returns (uint) {
+        return num1 + num2;
+    }
+}
+
+contract Q48_2 {
+    Q48_1 public contQ48_1;
+
+    // 2 contract의 생성자에서 1 주소를 받아서 저장
+    constructor(address conAddr) {
+        contQ48_1 = Q48_1(conAddr);
+    }
+
+    // 1의 더하기 함수를 사용하는 함수
+    function addFrom1(uint num1, uint num2) public view returns (uint) {
+        return contQ48_1.add(num1, num2);
+    }
+}
+
+contract Q49 {
+    // 9. 긴 숫자를 넣었을 때, 마지막 3개의 숫자만 반환하는 함수를 구현하세요.
+    // 예) 459273 → 273 // 492871 → 871 // 92218 → 218
+    function lastThree(uint number) public pure returns (uint) {
+        return number % 1000;
+    }
+
+
+}
+
+contract Q50 {
+    // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
+    // 예) 3,1,6 → 316 // 1,9,3 → 193 // 0,1,5 → 15
+    // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
+
+
+    // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
+    function concatThree(uint num1, uint num2, uint num3) public pure returns (uint) {
+        return num1 * 100 + num2 * 10 + num3;
+    }
+
+    // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
+    function concat(uint[] memory numbers) public pure returns (uint) {
+        uint result = 0;
+        for (uint i = 0; i < numbers.length; i++) {
+            result = result * 10 + numbers[i];
+        }
+        return result;
+    }
 
 }
