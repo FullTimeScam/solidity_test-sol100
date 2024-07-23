@@ -266,31 +266,19 @@ contract Q40 {
     function sort(uint[] memory data) public pure returns (uint[] memory) {
         
         uint n = data.length;
-
-        // 내림차순으로 정렬
-        for (uint i = 0; i < n / 2; i++) {
-            uint temp = data[i];
-            data[i] = data[n - 1 - i];
-            data[n - 1 - i] = temp;
+    //내림차순 정렬
+        for (uint i = 0; i < n - 1; i++) {
+            for (uint j = 0; j < n - i - 1; j++) {
+                if (data[j] > data[j + 1]) {
+                    uint temp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = temp;
+                }
+            }
         }
         return data;
     }
 
     // 가운데 값 찾는 함수
-
-    function findMiddle(uint[] memory data) public pure returns (uint[] memory) {
-        uint[] memory sortedData = sort(data);
-        uint n = sortedData.length; // 길이
-        if(n % 2 == 1) { // 홀수면
-            uint[] memory result = new uint[](1); // 한 칸짜리 만들고
-            result[0] = sortedData[n / 2]; // 절반 나눈 값(나머지 때문에 절반에서 한 칸 넘은 값이 나옴
-            return result;
-        } else { // 짝수면
-            uint[] memory result = new uint[](2); // 두 칸 짜리 만들고
-            result[0] = sortedData[(n / 2) -1]; // 절반 나눈 값에서 1 뺌(시작점)
-            result[1] = sortedData[n / 2]; // 그 다음 수까지 출력
-            return result;
-        }
-    }
 
 }
