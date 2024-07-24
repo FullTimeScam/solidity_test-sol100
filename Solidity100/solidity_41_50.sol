@@ -222,18 +222,64 @@ contract Q50 {
        10 이하에서만 작동합니다. 다시 고쳐볼게요.
     */
 
-    // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
-    function concatThree(uint num1, uint num2, uint num3) public pure returns (uint) {
-        return num1 * 100 + num2 * 10 + num3;
-    }
+    function uintString(uint _num) public pure returns(string memory) {
+        if (_num > 0) {
+            uint length = 0; // _num의 자릿수 나옴 => 배열의 번호로 쓸 것임(arrIndex)
+            uint _numTemp = _num; // _num값이 바뀌어서 임시num 만듦
+            
+            for ( ; _numTemp != 0 ; _numTemp /= 10){
+                length++;
+            }
 
-    // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
-    function concat(uint[] memory numbers) public pure returns (uint) {
-        uint result = 0;
-        for (uint i = 0; i < numbers.length; i++) {
-            result = result * 10 + numbers[i];
+            uint arrIndex = length-1; // 배열의 번호
+
+            bytes memory bString = new bytes(length); // 배열에 각각 숫자들을 저장할 것
+
+            for ( ; _num != 0; _num /= 10) {
+                // 10으로 나눈 나머지를 하나씩 배열에 저장
+                bString[arrIndex] = bytes1(uint8(48 + _num % 10)); // 뒤에서 부터 // 아스키코드 문자"0"은 10진수 48
+                if (arrIndex == 0) break; // 연하님이 해결해주심! arrIndex가 음수로 가서 에러가 났었음
+                arrIndex--;
+            }
+
+            return string(bString);
+
+        } else{
+            return "0";
         }
-        return result;
     }
 
+
+    // 숫자 3개가 들어오면 이어 붙이기
+
+    // 숫자 n개가 들어오면 이어 붙이기
+    function concatThree(uint[] memory _nums) public pure returns(string memory) {
+
+        bytes memory result;
+
+        for (uint i = 0; i< _nums.length; i++) 
+        {
+            result = abi.encodePacked(result, uintString(_nums[i]));
+        }
+
+        return string(result);
+    }
+
+
+
+
+
+    // // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
+    // function concatThree(uint num1, uint num2, uint num3) public pure returns (uint) {
+    //     return num1 * 100 + num2 * 10 + num3;
+    // }
+
+    // // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
+    // function concat(uint[] memory numbers) public pure returns (uint) {
+    //     uint result = 0;
+    //     for (uint i = 0; i < numbers.length; i++) {
+    //         result = result * 10 + numbers[i];
+    //     }
+    //     return result;
+    // }    
 }
