@@ -214,13 +214,7 @@ contract Q50 {
     // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
     // 예) 3,1,6 → 316 // 1,9,3 → 193 // 0,1,5 → 15
     // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
-
-    /* 10 이하에서만 작동합니다. 다시 고쳐볼게요.
-       10 이하에서만 작동합니다. 다시 고쳐볼게요.
-       10 이하에서만 작동합니다. 다시 고쳐볼게요.
-       10 이하에서만 작동합니다. 다시 고쳐볼게요.
-       10 이하에서만 작동합니다. 다시 고쳐볼게요.
-    */
+    // 역시 박연하! 박연하! 박연하!
 
     function uintString(uint _num) public pure returns(string memory) {
         if (_num > 0) {
@@ -238,11 +232,11 @@ contract Q50 {
             for ( ; _num != 0; _num /= 10) {
                 // 10으로 나눈 나머지를 하나씩 배열에 저장
                 bString[arrIndex] = bytes1(uint8(48 + _num % 10)); // 뒤에서 부터 // 아스키코드 문자"0"은 10진수 48
-                if (arrIndex == 0) break; // 연하님이 해결해주심! arrIndex가 음수로 가서 에러가 났었음
+                if (arrIndex == 0) break; // 연하님이 에러 해결해주심! arrIndex가 음수로 가서 에러가 났었음
                 arrIndex--;
             }
 
-            return string(bString);
+            return string(bString); // string은 특별한 형태의 배열임!!!!! 그러니까 이게 된다!
 
         } else{
             return "0";
@@ -252,8 +246,16 @@ contract Q50 {
 
     // 숫자 3개가 들어오면 이어 붙이기
 
+    function concatThree(uint _a, uint _b, uint _c) public pure returns(string memory) {
+        bytes memory result;
+
+        result = abi.encodePacked(uintString(_a), uintString(_b), uintString(_c));
+
+        return string(result);
+    }
+
     // 숫자 n개가 들어오면 이어 붙이기
-    function concatThree(uint[] memory _nums) public pure returns(string memory) {
+    function concatArr(uint[] memory _nums) public pure returns(string memory) {
 
         bytes memory result;
 
@@ -268,7 +270,9 @@ contract Q50 {
 
 
 
+    //아래 코드는 한 자리 숫자에서만 작동함
 
+    
     // // 숫자 3개가 부여되면 그 3개의 숫자를 이어붙여서 반환하는 함수를 구현하세요.
     // function concatThree(uint num1, uint num2, uint num3) public pure returns (uint) {
     //     return num1 * 100 + num2 * 10 + num3;

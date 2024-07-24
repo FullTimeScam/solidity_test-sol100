@@ -231,25 +231,10 @@ contract Q39 {
     // 예) 15 : 7,5,3,2  (2의 배수 7개, 3의 배수 5개, 5의 배수 3개, 7의 배수 2개) // 100 : 50,33,20,14  (2의 배수 50개, 3의 배수 33개, 5의 배수 20개, 7의 배수 14개)
 
     function countMultiples(uint num) public pure returns (uint, uint, uint, uint) {
-        uint count2 = 0;
-        uint count3 = 0;
-        uint count5 = 0;
-        uint count7 = 0;
-
-        for (uint i = 1; i <= num; i++) {
-            if (i % 2 == 0) {
-                count2++;
-            }
-            if (i % 3 == 0) {
-                count3++;
-            }
-            if (i % 5 == 0) {
-                count5++;
-            }
-            if (i % 7 == 0) {
-                count7++;
-            }
-        }
+        uint count2 = num/2;
+        uint count3 = num/3;
+        uint count5 = num/5;
+        uint count7 = num/7;
 
         return (count2, count3, count5, count7);
     }
@@ -268,10 +253,14 @@ contract Q40 {
         uint n = data.length;
 
         // 내림차순으로 정렬
-        for (uint i = 0; i < n / 2; i++) {
-            uint temp = data[i];
-            data[i] = data[n - 1 - i];
-            data[n - 1 - i] = temp;
+        for (uint i = 0; i < n; i++) { // 각 자리마다 포문 실행
+            for (uint j = i + 1; j < n; j++) { // 모든 배열의 요소를 한바퀴 다 돈다.
+                if (data[i] < data[j]) {
+                    uint temp = data[i];
+                    data[i] = data[j];
+                    data[j] = temp;
+                }
+            }
         }
         return data;
     }
