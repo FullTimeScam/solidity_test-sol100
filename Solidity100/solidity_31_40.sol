@@ -122,7 +122,7 @@ contract Q35 {
         uint j = 0;
 
         for (uint i = 1; i < numbers.length; i += 2) {
-            even[j] = numbers[i]; // 함수 이식하기
+            even[j] = numbers[i]; // 배열 이식하기
             j++;
         }
 
