@@ -146,7 +146,7 @@ contract Q46 {
 
     function addNumber(uint _num) public {
         require(
-            (_num % 3 == 0) || (_num % 10 == 0 && _num < 50),
+            (_num % 3 == 0) || (_num % 10 == 0 && _num < 50), // 괄호 없어도 분기가 ||라서 괜찮음.
             "nope"
         );
         specialNumbers.push(_num);
@@ -178,7 +178,7 @@ contract Q47 {
 
 }
 
-contract Q48_1 {
+contract Q48_1 { // 라이브러리
     // A라는 contract에는 2개의 숫자를 더해주는 함수를 구현하세요.
     // B라고 하는 contract를 따로 만든 후에 A의 더하기 함수를 사용하는 코드를 구현하세요.
     function add(uint num1, uint num2) public pure returns (uint) {
@@ -216,6 +216,8 @@ contract Q50 {
     // 응용 문제 : 3개 아닌 n개의 숫자 이어붙이기
     // 역시 박연하! 박연하! 박연하!
 
+    //@openzeppelin/contracts/utils/Strings.sol 써도 됨.
+
     function uintString(uint _num) public pure returns(string memory) {
         if (_num > 0) {
             uint length = 0; // _num의 자릿수 나옴 => 배열의 번호로 쓸 것임(arrIndex)
@@ -236,7 +238,7 @@ contract Q50 {
                 arrIndex--;
             }
 
-            return string(bString); // string은 특별한 형태의 배열임!!!!! 그러니까 이게 된다!
+            return string(bString); // string은 특별한 형태의 배열임! 그러니까 이게 된다.
 
         } else{
             return "0";

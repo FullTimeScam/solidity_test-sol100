@@ -97,9 +97,9 @@ contract Q34 {
 }
 
 contract Q35 {
-// 숫자만 들어갈 수 있는 array를 선언하고
-// 해당 array의 짝수번째 요소만 모아서 반환하는 함수를 구현하세요.
-// 예) [1,2,3,4,5,6] -> [2,4,6] // [3,5,7,9,11,13] -> [5,9,13]
+    // 숫자만 들어갈 수 있는 array를 선언하고
+    // 해당 array의 짝수번째 요소만 모아서 반환하는 함수를 구현하세요.
+    // 예) [1,2,3,4,5,6] -> [2,4,6] // [3,5,7,9,11,13] -> [5,9,13]
 
     // 숫자만 들어갈 수 있는 array를 선언하고
     uint[] public numbers;
@@ -231,12 +231,7 @@ contract Q39 {
     // 예) 15 : 7,5,3,2  (2의 배수 7개, 3의 배수 5개, 5의 배수 3개, 7의 배수 2개) // 100 : 50,33,20,14  (2의 배수 50개, 3의 배수 33개, 5의 배수 20개, 7의 배수 14개)
 
     function countMultiples(uint num) public pure returns (uint, uint, uint, uint) {
-        uint count2 = num/2;
-        uint count3 = num/3;
-        uint count5 = num/5;
-        uint count7 = num/7;
-
-        return (count2, count3, count5, count7);
+        return (num/2, num/3, num/5, num/7);
     }
 
 
@@ -272,7 +267,7 @@ contract Q40 {
         uint n = sortedData.length; // 길이
         if(n % 2 == 1) { // 홀수면
             uint[] memory result = new uint[](1); // 한 칸짜리 만들고
-            result[0] = sortedData[n / 2]; // 절반 나눈 값(나머지 때문에 절반에서 한 칸 넘은 값이 나옴
+            result[0] = sortedData[n / 2]; // 절반 나눈 값(0, 1, 2라서 절반에서 한 칸 넘은 값이 나옴
             return result;
         } else { // 짝수면
             uint[] memory result = new uint[](2); // 두 칸 짜리 만들고
