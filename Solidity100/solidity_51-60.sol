@@ -279,37 +279,37 @@ contract Q60 {
     
     // 힌트 : 날짜는 그냥 숫자로 기입하세요. 예) 2023년 5월 27일 → 230527
 
+
+
+    /* ==아이디어==*/
+    // 투숙객 정보 관리 : 이중 매핑 (날짜 => 방 번호 => 방 투숙객 정보)
+    // 
+
+
     // 방마다 투숙객 정보 저장
     struct Room {
         address[3] people; // 방의 최대 투숙객 수는 3명
-        bool taken; // 방이 이미 사용되었는지 여부를 확인하는 플래그
+        uint guestCount; // 현재 투숙객 수
     }
 
 
-    // 특정 날짜에 특정 방에 누가 투숙했는지 알려주는 자료구조와
     // 날짜 => 방 번호 => 방 투숙객 정보
     mapping(uint => mapping(uint => Room)) public logs;
 
-    // 날짜 => 방 번호 => 방 투숙객 정보 저장
-    function addLog(uint date, uint roomNum, address[3] memory guests) public {
+    // 날짜 => 방 번호 => 방 투숙객 정보(지갑주소) 저장
+    function addLog(uint date, uint roomNum, address guest) public {
         require(roomNum == 1 || roomNum == 2, "Invalid room number"); // 방 번호는 1 또는 2 (단 두 칸!)
-        Room storage room = logs[date][roomNum]; // 상태변수라서 storage
-        require(!room.taken, "already booked");
+        Room storage room = logs[date][roomNum]; // 상태변수라서 memory 말고 storage
+        require(room.guestCount < 3, "Room already full"); // 방이 이미 가득 찼는지 확인
 
-        for (uint i = 0; i < 3; i++) {
-            // 빈 주소가 있는지 봐서 방이 찼는지 확인
-            // 예약 시스템이 아니라서 초기화할 필요 없음
-            require(room.people[i] == address(0), "Room is already full");
-            room.people[i] = guests[i];
-        }
-        room.taken = true; // 방의 예약 상태를 변경
+        room.people[room.guestCount] = guest; // 값에 신입 추가
+        room.guestCount++; // 방의 투숙객 수 1명 증가
     }
 
     // 날짜 => 방 번호 => 방 투숙객 정보 반환
     function getLog(uint date, uint roomNum) public view returns (address[3] memory) {
         require(roomNum == 1 || roomNum == 2, "Invalid room number"); // 방 번호는 1 또는 2만 가능
         Room storage room = logs[date][roomNum];
-        require(room.taken, "No booking found");
 
         return room.people;
     }
