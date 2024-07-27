@@ -59,7 +59,7 @@ contract Q64 {
         // bytes4 part3 = bytes4(abi.encodePacked(addr[8], addr[9], addr[10], addr[11]));
         // bytes4 part4 = bytes4(abi.encodePacked(addr[12], addr[13], addr[14], addr[15]));
         // bytes4 part5 = bytes4(abi.encodePacked(addr[16], addr[17], addr[18], addr[19]));
-
+    // 현용님 힌트 : abi.encodePacked로 4개씩 합친거 만든 다음에 bytes4[] 에 하나씩 넣어줬습니다
 
         for (uint i=0; i<5; i++) 
         {
@@ -70,30 +70,9 @@ contract Q64 {
         return result;
     }
 
-    
 
-    // 모르겠습니다 ㅜㅜ
-    // 현용님 힌트 : abi.encodePacked로 4개씩 합친거 만든 다음에 bytes4[] 에 하나씩 넣어줬습니다
 }
 
-contract Q644{
-    /*
-    지갑 주소를 넣으면 5개의 4bytes로 분할하여 반환해주는 함수를 구현하세요.
-    현용님이 푼 것
-    */
-     function split(address _addr) public pure returns (bytes4[5] memory) {
-        bytes20 addr = bytes20(_addr);
-        bytes4[5] memory result;
-        bytes4 temp;
-        
-        for(uint i=0;i<5;i++){
-            temp=bytes4(abi.encodePacked(addr[i*4],addr[i*4+1],addr[i*4+2],addr[i*4+3]));
-            result[i]=temp;
-        }
-
-        return result;
-    }
-}
 
 
 contract Q65 {
