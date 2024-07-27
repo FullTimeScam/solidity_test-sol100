@@ -19,9 +19,7 @@ contract Q41 {
 
     // 배열을 초기화하는 함수도 구현하세요.
     function reset() public {
-        for (uint i = 0; i < numbers.length; i++) {
-            numbers[i] = 0;            
-        }
+            delete numbers;
     }
 
 }
