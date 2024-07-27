@@ -63,7 +63,7 @@ contract Q25 {
     function fill09(uint n) public returns(uint[] memory) {
         delete A;
         require(n<=9, "Input can't be bigger than 9");
-        for (uint i=n; i<=9; i++) 
+        for (uint i=n; i<=n; i++) 
         {
             A.push(i);
         }
