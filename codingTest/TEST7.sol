@@ -54,7 +54,7 @@ contract TEST7 {
     // * 브레이크 기능
     // 속도를 10 줄이는 기능, 브레이크 기능을 이용할 때마다 연료가 10씩 줄어 듦, 속도가 0이면 브레이크는 더이상 못씀
     function breaking() public {
-        require(speed>0, "car sttoped.");
+        require(speed>0 && fuel > 10, "car sttoped.");
 
         speed -= 10; // 속도를 10 줄이는 기능,
         fuel -= 10; // 브레이크 기능을 이용할 때마다 연료가 10씩 줄어 듦,
