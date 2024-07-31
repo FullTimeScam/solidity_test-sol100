@@ -245,6 +245,7 @@ contract Q88 {
 
 // Q88_ChangeOwner의 오너는 변경할 수 있는데
 // Q88_OWNER의 오너를 변경시키는 방법은 잘 모르겠습니다.
+
 contract Q88_OWNER {
     address private owner;
 
