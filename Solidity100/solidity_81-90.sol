@@ -34,18 +34,15 @@ contract Q82 {
 특정 숫자를 입력했을 때 그 숫자까지의 3,5,8의 배수의 개수를 알려주는 함수를 구현하세요.
 */
 
-    function countMultiples(uint number) public pure returns (uint) {
-        uint256 count = 0;
+    function countMultiples(uint _number) public pure returns (uint, uint, uint) {
         
-        for (uint i = 1; i <= number; i++) {
-            if (i % 3 == 0 || i % 5 == 0 || i % 8 == 0) {
-                count++;
-            }
-        }
-        
-        return count;
-    }
+        uint count3 = _number/3;
+        uint count5 = _number/5;
+        uint count8 = _number/8;
 
+        return (count3, count5, count8);
+        
+    }
 }
 
 
