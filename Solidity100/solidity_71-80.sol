@@ -38,7 +38,7 @@ D가 50 deposit(D가 owner), E가 20 deposit(D), E가 45 depoist(D), E가 65 dep
     uint whaleBomb = 0;
 
     constructor() {
-        owner = msg.sender;
+        owner = address(0); // 처음 컨트랙트 배포 시에 owner를 0주소로 설정(No Scam!)
     }
     
     function deposit() public payable {
@@ -48,10 +48,14 @@ D가 50 deposit(D가 owner), E가 20 deposit(D), E가 45 depoist(D), E가 65 dep
         }
     }
 
-    function withdraw(uint amount) public {
+    function withdraw() public {
         require(msg.sender == owner, "only owner can withdraw funds");
-        require(amount <= address(this).balance, "insufficient funds in contract");
-        payable(owner).transfer(amount);
+        uint wdrAmount = address(this).balance / 4; // 1등은 전체 모인 금액의 25%를 출금할 수 있음
+        require(wdrAmount > 0, "insufficient funds in contract");
+
+        payable(owner).transfer(wdrAmount);
+        
+        owner = address(0); // 인출하고 나면 오너를 0주소로 초기화
     }
 
 }
@@ -65,10 +69,10 @@ D가 50 deposit(D가 owner), E가 20 deposit(D), E가 45 depoist(E가 owner, E �
 
     address public owner;
     uint public whaleBomb = 0;
-    mapping(address => uint) public deposits;
+    mapping(address => uint) public deposits; // 총 입금량 관리
 
     constructor() {
-        owner = msg.sender;
+        owner = address(0); // 처음 컨트랙트 배포 시에 owner를 0주소로 설정(No Scam!)
     }
     
     function deposit() public payable {
@@ -79,10 +83,16 @@ D가 50 deposit(D가 owner), E가 20 deposit(D), E가 45 depoist(E가 owner, E �
         }
     }
 
-    function withdraw(uint amount) public {
+    function withdraw() public {
         require(msg.sender == owner, "only owner can withdraw funds");
-        require(amount <= address(this).balance, "insufficient funds in contract");
-        payable(owner).transfer(amount);
+        uint wdrAmount = address(this).balance / 4; // 1등은 전체 모인 금액의 25%를 출금할 수 있음
+        require(wdrAmount > 0, "insufficient funds in contract");
+
+        deposits[owner] = 0; // 인출 할 시에 해당 계정의 총 입금량 초기화
+
+        payable(owner).transfer(wdrAmount);
+        owner = address(0); // 인출하고 나면 오너를 0주소로 초기화
+        
     }
 
 }
