@@ -36,11 +36,7 @@ contract Q82 {
 
     function countMultiples(uint _number) public pure returns (uint, uint, uint) {
         
-        uint count3 = _number/3;
-        uint count5 = _number/5;
-        uint count8 = _number/8;
-
-        return (count3, count5, count8);
+        return (_number/3, _number/5, _number/8);
         
     }
 }
