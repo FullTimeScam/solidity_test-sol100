@@ -152,6 +152,10 @@ contract Q56 {
     // 둘 다 동의가 되어 있다면 새로운 오너 지정 가능 (오너, 부오너 누구든 가능)
     // 주인 바뀌고 나면 동의 상태 둘 다 초기화
 
+    // 강사님 원래 의도 : 
+    // 1. 둘 다 "바꾼다"라고 얘기를 하고
+    // 2. changeOwner 함수를 실행하는 것
+
     address public owner; // 오너 주소
     address public subOwner; // 부오너 주소
     bool public ownerApproval; // owner의 동의 상태
@@ -175,6 +179,7 @@ contract Q56 {
 
     // 주인 바꾸기
     function changeOwner(address newOwner) public {
+        require(msg.sender == owner || msg.sender == subOwner, "You are not auth"); // owner / subOwner인지 확인
         require(newOwner != address(0), "Invalid address");
         require(ownerApproval && subOwnerApproval, "Both approvals required"); // 둘 다 동의 했는지 확인
 
